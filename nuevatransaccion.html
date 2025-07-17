@@ -1,0 +1,115 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Public+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Transacciones</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div
+      class="relative flex size-full min-h-screen flex-col bg-slate-50 justify-between group/design-root overflow-x-hidden"
+      style='font-family: "Public Sans", "Noto Sans", sans-serif;'
+    >
+        <div>
+            <a href="index.html">
+        <div class="flex items-center bg-slate-50 p-4 pb-2 justify-between">
+          <div class="text-[#0e151b] flex size-12 shrink-0 items-center" data-icon="X" data-size="24px" data-weight="regular">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+              ></path>
+            </svg>
+          </div>
+        </a>
+          <h2 class="text-[#0e151b] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Nueva Transacción</h2>
+        </div>
+        <a href="nuevoingreso.html">
+          <div class="bg-green-400 rounded-xl p-4 my-4 shadow-md">
+        <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-14 justify-between">
+          <p class="text-[#0e151b] text-base font-normal leading-normal flex-1 truncate">Nuevo Ingreso</p>
+          <div class="shrink-0">
+            <div class="text-[#0e151b] flex size-7 items-center justify-center" data-icon="ArrowRight" data-size="24px" data-weight="regular">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+        </a>
+    </div>
+        <a href="nuevogasto.html">
+           <div class="bg-red-400 rounded-xl p-4 my-4 shadow-md">
+        <div class="flex items-center gap-4 bg-slate-50 px-4 min-h-14 justify-between">
+          <p class="text-[#0e151b] text-base font-normal leading-normal flex-1 truncate">Nuevo Gasto</p>
+          <div class="shrink-0">
+            <div class="text-[#0e151b] flex size-7 items-center justify-center" data-icon="ArrowRight" data-size="24px" data-weight="regular">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div><div class="h-5 bg-slate-50"></div></div>
+    </div>
+</a>
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item resumen">
+    <span>🏠</span>
+    <p>Resumen</p>
+  </a>
+  <a href="nuevatransaccion.html" class="nav-item transacciones active">
+    <span>📋</span>
+    <p>Transacciones</p>
+  </a>
+  <a href="presupuesto.html" class="nav-item presupuesto">
+    <span>📊</span>
+    <p>Presupuesto</p>
+  </a>
+  <a href="ajustes.html" class="nav-item ajustes">
+    <span>⚙️</span>
+    <p>Ajustes</p>
+  </a>
+</nav>
+
+<style>
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #e4e7ec;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+    z-index: 100;
+  }
+
+  .nav-item {
+    color: #34495e;
+    text-align: center;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  .nav-item span {
+    font-size: 20px;
+    display: block;
+  }
+
+  .nav-item.active span,
+  .nav-item.active p {
+    color: black;
+    font-weight: bold;
+  }
+</style>
+</body>
+</html>

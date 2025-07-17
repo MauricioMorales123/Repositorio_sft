@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Seleccionar Datos del Historial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    const transacciones = {
+      ingreso: [
+        { id: 'ingreso1', texto: 'Ingreso: $715.000 - Salario Empresa Tech' },
+      ],
+      gasto: [
+        { id: 'gasto1', texto: 'Gasto: $50.000 - Cena' },
+        { id: 'gasto2', texto: 'Gasto: $100.000 - Compañía Eléctrica' },
+        { id: 'gasto3', texto: 'Gasto: $400.000 - Supermercado' },
+      ]
+    };
+
+    function toggleIndividualSelection(checkbox) {
+      const section = document.getElementById('transaccionesIndividuales');
+      section.classList.toggle('hidden', !checkbox.checked);
+    }
+
+    function filtrarTransacciones() {
+      const tipo = document.getElementById('tipoTransaccion').value;
+      const contenedor = document.getElementById('listaTransacciones');
+      contenedor.innerHTML = '';
+
+      let lista = [];
+      if (tipo === 'Todos') {
+        lista = [...transacciones.ingreso, ...transacciones.gasto];
+      } else if (tipo === 'Ingreso') {
+        lista = transacciones.ingreso;
+      } else if (tipo === 'Gasto') {
+        lista = transacciones.gasto;
+      }
+
+      lista.forEach(t => {
+        const item = document.createElement('label');
+        item.className = 'flex items-center space-x-2 text-sm';
+        item.innerHTML = `<input type="checkbox" class="accent-blue-600" id="${t.id}"><span>${t.texto}</span>`;
+        contenedor.appendChild(item);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      filtrarTransacciones(); 
+    });
+  </script>
+</head>
+<body class="bg-gray-100 text-[#101519]">
+  <div class="flex items-center justify-between px-4 py-3 bg-white shadow">
+    <button onclick="history.back()" class="text-[#101519]">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <h1 class="text-lg font-semibold">Seleccionar Datos</h1>
+    <div class="w-5"></div>
+  </div>
+
+  <div class="p-5 space-y-5">
+    <h2 class="text-xl font-bold">Filtrar historial</h2>
+
+    <div>
+      <label class="block text-sm font-medium mb-1" for="fechaInicio">Desde</label>
+      <input id="fechaInicio" type="date" class="w-full border border-gray-300 rounded-lg p-2 bg-white" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1" for="fechaFin">Hasta</label>
+      <input id="fechaFin" type="date" class="w-full border border-gray-300 rounded-lg p-2 bg-white" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Tipo de transacción</label>
+      <select id="tipoTransaccion" onchange="filtrarTransacciones()" class="w-full border border-gray-300 rounded-lg p-2 bg-white">
+        <option value="Todos">Todos</option>
+        <option value="Ingreso">Ingreso</option>
+        <option value="Gasto">Gasto</option>
+      </select>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <input type="checkbox" id="seleccionIndividual" onchange="toggleIndividualSelection(this)" class="accent-blue-600">
+      <label for="seleccionIndividual" class="text-sm font-medium">Seleccionar datos individuales</label>
+    </div>
+
+    <div id="transaccionesIndividuales" class="hidden border border-gray-300 rounded-lg bg-white p-4 space-y-2">
+      <p class="font-medium mb-2 text-sm text-gray-700">Selecciona las transacciones:</p>
+      <div id="listaTransacciones" class="space-y-2"></div>
+    </div>
+
+    <button class="w-full bg-[#1976d2] text-white font-medium py-2 rounded-lg hover:bg-[#1565c0] transition">
+      Generar balance con datos seleccionados
+    </button>
+  </div>
+
+  <div class="h-5 bg-gray-100"></div>
+</body>
+</html>
