@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 /**
  *   
- * se crea un controlador que no de una bienvenida
+ * se crea un controlador que nos muestre una bienvenida
  */   
 @RestController
 public class BienvenidaController {
