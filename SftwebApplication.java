@@ -1,4 +1,7 @@
-
+/**
+ *
+ * se utilizo spring initializr para crear el proyecto con spring boot
+ */	
 package com.sft.sftweb;
 
 import org.springframework.boot.SpringApplication;
