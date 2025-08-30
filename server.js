@@ -1,50 +1,105 @@
 const express = require("express");
+const mysql = require("mysql2");
+const cors = require("cors");
 const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
 
 const app = express();
+app.use(cors()); // permite llamadas desde React
 app.use(bodyParser.json());
 
-// Simulación de base de datos en memoria
-let users = [];
-
-// Registro
-app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-
-  // Verificar si el usuario ya existe
-  const userExists = users.find(user => user.username === username);
-  if (userExists) {
-    return res.status(400).json({ message: "Usuario ya registrado" });
-  }
-
-  // Hashear contraseña
-  const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword });
-
-  res.json({ message: "Usuario registrado exitosamente" });
+// 🔹 Conexión a MySQL
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",      // tu usuario de MySQL
+  password: "MauroMillos.28",      // tu contraseña de MySQL
+  database: "bdsft", // la BD que creaste
 });
 
-// Login
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  // Buscar usuario
-  const user = users.find(user => user.username === username);
-  if (!user) {
-    return res.status(400).json({ message: "Error en la autenticación" });
+db.connect(err => {
+  if (err) {
+    console.error("Error de conexión:", err);
+  } else {
+    console.log("Conectado a MySQL");
   }
-
-  // Verificar contraseña
-  const isValid = await bcrypt.compare(password, user.password);
-  if (!isValid) {
-    return res.status(400).json({ message: "Error en la autenticación" });
-  }
-
-  res.json({ message: "Autenticación satisfactoria" });
 });
 
-// Iniciar servidor
-app.listen(3000, () => {
-  console.log("Servidor corriendo en http://localhost:3000");
+// 🔹 Endpoint de registro
+app.post("/api/registro", (req, res) => {
+  const { usuario, email, password } = req.body;
+
+  if (!usuario || !email || !password) {
+    return res.status(400).json({ message: "Todos los campos son obligatorios" });
+  }
+
+  const query = "INSERT INTO usuarios (usuario, email, password) VALUES (?, ?, ?)";
+  db.query(query, [usuario, email, password], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error al registrar usuario" });
+    }
+    res.status(201).json({ message: "Usuario registrado con éxito", userId: result.insertId });
+  });
+});
+
+
+// 🔹 Endpoint de login
+app.post("/api/iniciodesesion", (req, res) => {
+  const { usuario, password } = req.body;
+
+  const query = "SELECT * FROM usuarios WHERE usuario = ? AND password = ?";
+  db.query(query, [usuario, password], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error en el servidor" });
+    }
+
+    if (result.length > 0) {
+      res.json({ message: "Login exitoso", user: result[0] });
+    } else {
+      res.status(401).json({ message: "Usuario o contraseña incorrectos" });
+    }
+  });
+});
+
+// 🔹 Guardar ingreso
+app.post("/api/nuevoingreso", (req, res) => {
+  const { usuario_id, descripcion, monto, fecha } = req.body;
+
+  if (!usuario_id || !descripcion || !monto || !fecha) {
+    return res.status(400).json({ message: "Todos los campos son obligatorios" });
+  }
+
+  const query = "INSERT INTO ingresos (usuario_id, descripcion, monto, fecha) VALUES (?, ?, ?, ?)";
+  db.query(query, [usuario_id, descripcion, monto, fecha], (err, result) => {
+    if (err) {
+      console.error("Error al guardar ingreso:", err);
+      return res.status(500).json({ message: "Error al guardar ingreso" });
+    }
+    res.status(201).json({ message: "Ingreso registrado con éxito", ingresoId: result.insertId });
+  });
+});
+
+
+// 🔹 Guardar gasto
+app.post("/api/nuevogasto", (req, res) => {
+  const { usuario_id, descripcion, monto, fecha } = req.body;
+
+  if (!usuario_id || !descripcion || !monto || !fecha) {
+    return res.status(400).json({ message: "Todos los campos son obligatorios" });
+  }
+
+  const query = "INSERT INTO gastos (usuario_id, descripcion, monto, fecha) VALUES (?, ?, ?, ?)";
+  db.query(query, [usuario_id, descripcion, monto, fecha], (err, result) => {
+    if (err) {
+      console.error("Error al guardar gasto:", err);
+      return res.status(500).json({ message: "Error al guardar gasto" });
+    }
+    res.status(201).json({ message: "Gasto registrado con éxito", gastoId: result.insertId });
+  });
+});
+
+
+
+app.listen(5000, () => {
+  console.log("Servidor corriendo en http://localhost:5000");
 });
